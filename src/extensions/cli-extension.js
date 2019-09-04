@@ -1,16 +1,16 @@
+const findUp = require('find-up');
 
-// add your CLI-specific functionality here, which will then be accessible
-// to your commands
 module.exports = toolbox => {
-  toolbox.foo = () => {
-    toolbox.print.info('called foo extension')
-  }
+  const configPath = findUp.sync('supermigration.config.js');
 
-  // enable this if you want to read configuration in from
-  // the current folder's package.json (in a "supermigration" property),
-  // supermigration.config.json, etc.
-  // toolbox.config = {
-  //   ...toolbox.config,
-  //   ...toolbox.config.loadConfig(process.cwd(), "supermigration")
-  // }
-}
+  if (configPath) {
+    const c = require(configPath);
+    toolbox.config = {
+      ...toolbox.config,
+      supermigration: {
+        ...toolbox.config.supermigration,
+        ...c,
+      },
+    };
+  }
+};

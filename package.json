@@ -7,12 +7,8 @@
     "supermigration": "bin/supermigration"
   },
   "scripts": {
-    "format": "prettier --write **/*.{js,json} && standard --fix",
-    "lint": "standard",
-    "test": "jest",
-    "watch": "jest --watch",
-    "snapupdate": "jest --updateSnapshot",
-    "coverage": "jest --coverage"
+    "format": "prettier --write **/*.{js,json}",
+    "lint": "standard"
   },
   "files": [
     "src",
@@ -23,23 +19,27 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "gluegun": "^2.1.0"
+    "@google-cloud/bigquery": "^4.1.8",
+    "enquirer": "^2.3.1",
+    "find-up": "^4.1.0",
+    "gluegun": "^2.1.0",
+    "lodash": "^4.17.15",
+    "prettier": "^1.12.1"
   },
   "devDependencies": {
-    "standard": "^12.0.1",
-    "prettier": "^1.12.1",
-    "jest": "^23.6.0"
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "jest": "^23.6.0",
+    "nodemon": "^1.19.2"
   },
   "jest": {
     "testEnvironment": "node"
   },
-  "standard": {
-    "env": [
-      "jest"
-    ]
-  },
   "prettier": {
-    "semi": false,
-    "singleQuote": true
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
   }
 }
