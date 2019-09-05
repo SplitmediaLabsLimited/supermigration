@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/bigquery": "^4.1.8",
+    "bluebird": "^3.5.5",
     "enquirer": "^2.3.1",
     "find-up": "^4.1.0",
     "gluegun": "^2.1.0",

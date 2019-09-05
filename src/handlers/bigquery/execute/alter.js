@@ -38,12 +38,12 @@ module.exports = async function executeAlter({ migration }) {
   }).table;
 
   await createTableFromSchema(temporaryTable, migration.table);
-  let stats = await copyTableFromQuery(temporaryTable, source.query);
-  printStats(stats);
 
-  // store a copy of the original table content
-  stats = await copyTableFromAnotherTable(backupTable, originalTable);
-  printStats(stats);
+  // copy data from the old table to a backup table, but also to the new table
+  await Promise.all([
+    copyTableFromQuery(temporaryTable, source.query),
+    copyTableFromAnotherTable(backupTable, originalTable),
+  ]);
 
   // delete the original table
   await deleteTable(originalTable);
@@ -53,8 +53,7 @@ module.exports = async function executeAlter({ migration }) {
     ...destination,
     tableId: finalTableId,
   }).table;
-  stats = await copyTableFromAnotherTable(finalTable, temporaryTable);
-  printStats(stats);
+  await copyTableFromAnotherTable(finalTable, temporaryTable);
 
   // delete the temporary table
   await deleteTable(temporaryTable);

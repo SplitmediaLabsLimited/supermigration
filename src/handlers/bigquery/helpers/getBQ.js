@@ -2,6 +2,7 @@ const { BigQuery } = require('@google-cloud/bigquery');
 const { print } = require('gluegun');
 const { get } = require('lodash');
 const { prompt } = require('enquirer');
+const Promise = require('bluebird');
 
 function getBQ({ projectId, datasetId, tableId }) {
   const output = {};
@@ -92,7 +93,7 @@ module.exports.getDatasetId = async function getDatasetId({ projectId, parameter
   });
 };
 
-module.exports.getTableId = async function getTableId({ projectId, datasetId, parameters }) {
+module.exports.getTableId = async function getTableId({ projectId, datasetId, parameters, multiple = false }) {
   if (parameters.array[3]) {
     return {
       tableId: parameters.array[3],
@@ -111,8 +112,8 @@ module.exports.getTableId = async function getTableId({ projectId, datasetId, pa
   });
 
   return await prompt({
-    type: 'autocomplete',
-    name: 'tableId',
+    type: multiple ? 'multiselect' : 'autocomplete',
+    name: multiple ? 'tableIds' : 'tableId',
     message: 'Choose a table',
     initial: 'default',
     choices,
@@ -128,4 +129,20 @@ module.exports.getTable = async function getTable({ projectId, datasetId, tableI
   const { schema, timePartitioning } = metadata;
 
   return { timePartitioning, schema };
+};
+
+module.exports.verifyCounts = async function(...tables) {
+  const all = await Promise.map(tables, async table => {
+    const [{ metadata }] = await table.get();
+
+    const { id, numBytes, numRows } = metadata;
+
+    return [id, numBytes, numRows];
+  });
+
+  const output = [['ID', 'Num. Bytes', 'Num. Rows'], ...all];
+
+  print.table(output, {
+    format: 'markdown',
+  });
 };

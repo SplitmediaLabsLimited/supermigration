@@ -20,7 +20,7 @@ module.exports = async function(toolbox) {
     destination: null,
   };
 
-  const filename = `migrations/bigquery/${new Date().getTime()}-${action}-${datasetId}-${tableId}.js`;
+  const filename = `migrations/bigquery/${projectId}/${new Date().getTime()}-${action}-${datasetId}-${tableId}.js`;
 
   await writeMigration(filename, data);
 };

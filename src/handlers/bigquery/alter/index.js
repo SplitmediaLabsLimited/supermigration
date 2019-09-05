@@ -1,5 +1,5 @@
 const { getProjectId, getDatasetId, getTableId, getTable } = require('../helpers/getBQ');
-const { writeMigration } = require('../helpers/writeMigration');
+const { getDescription, writeMigration } = require('../helpers/writeMigration');
 
 module.exports = async function(toolbox) {
   const action = 'alter';
@@ -9,10 +9,12 @@ module.exports = async function(toolbox) {
   const { datasetId } = await getDatasetId({ projectId, parameters });
   const { tableId } = await getTableId({ projectId, datasetId, parameters });
   const table = await getTable({ projectId, datasetId, tableId });
+  const { description } = await getDescription();
 
   const data = {
     type: 'bigquery',
     action,
+    description,
     source: {
       query: `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``,
     },
@@ -24,7 +26,7 @@ module.exports = async function(toolbox) {
     table,
   };
 
-  const filename = `migrations/bigquery/${new Date().getTime()}-${action}-${datasetId}-${tableId}.js`;
+  const filename = `migrations/bigquery/${projectId}/${new Date().getTime()}-${action}-${datasetId}-${tableId}.js`;
 
   await writeMigration(filename, data);
 };

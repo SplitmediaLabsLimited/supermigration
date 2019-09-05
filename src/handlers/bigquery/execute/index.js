@@ -1,6 +1,7 @@
 const { prompt } = require('enquirer');
 const { filesystem } = require('gluegun');
 const path = require('path');
+const { groupBy } = require('lodash');
 
 async function getMigrationFilename({ parameters }) {
   if (parameters.array[1]) {
@@ -13,12 +14,35 @@ async function getMigrationFilename({ parameters }) {
     matching: '*.js',
   });
 
+  const groupedChoices = groupBy(
+    migrationFiles.map(file => {
+      const parsed = path.parse(file);
+      const dirs = parsed.dir.split('/');
+      const project = dirs.pop();
+
+      return {
+        name: parsed.name,
+        project,
+      };
+    }),
+    'project'
+  );
+
+  const choices = Object.keys(groupedChoices).map(project => {
+    const choice = {
+      name: project,
+      choices: groupedChoices[project].map(migration => migration.name),
+    };
+
+    return choice;
+  });
+
   return prompt({
     type: 'multiselect',
     name: 'migrations',
     message: 'Choose a migration to execute',
     initial: 'default',
-    choices: migrationFiles.map(file => path.parse(file).name).reverse(),
+    choices,
   });
 }
 
