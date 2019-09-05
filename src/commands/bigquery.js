@@ -27,6 +27,7 @@ async function getAction(parameters) {
 
 module.exports = {
   name: 'bigquery',
+  description: 'Interactive wizard to create a new migration for BigQuery',
   run: async toolbox => {
     const { parameters } = toolbox;
 

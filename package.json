@@ -2,7 +2,6 @@
   "name": "supermigration",
   "version": "1.0.0",
   "description": "supermigration CLI",
-  "private": true,
   "bin": {
     "supermigration": "bin/supermigration"
   },
@@ -23,19 +22,14 @@
     "bluebird": "^3.5.5",
     "enquirer": "^2.3.1",
     "find-up": "^4.1.0",
-    "gluegun": "^2.1.0",
+    "gluegun": "^3.3.4",
     "lodash": "^4.17.15",
     "prettier": "^1.12.1"
   },
   "devDependencies": {
     "eslint": "^6.3.0",
     "eslint-config-prettier": "^6.2.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "jest": "^23.6.0",
-    "nodemon": "^1.19.2"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "eslint-plugin-prettier": "^3.1.0"
   },
   "prettier": {
     "printWidth": 120,

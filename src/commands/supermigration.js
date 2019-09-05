@@ -6,18 +6,19 @@ module.exports = {
     const { print } = toolbox;
 
     print.info(`Welcome to your SplitmediaLabs' SuperMigration tool`);
-    const { database, action } = await prompt([
-      {
-        type: 'select',
-        name: 'database',
-        message: 'Which database are you targeting?',
-        initial: 'bigquery',
-        choices: [
-          { message: 'BigQuery', value: 'bigquery' },
-          // TODO: replicate online-schema-change
-          // { message: 'MySQL', value: 'mysql' }
-        ],
-      },
+    const database = 'bigquery';
+    const { action } = await prompt([
+      // {
+      //   type: 'select',
+      //   name: 'database',
+      //   message: 'Which database are you targeting?',
+      //   initial: 'bigquery',
+      //   choices: [
+      //     { message: 'BigQuery', value: 'bigquery' },
+      //     // TODO: replicate online-schema-change
+      //     // { message: 'MySQL', value: 'mysql' }
+      //   ],
+      // },
       {
         type: 'select',
         name: 'action',
