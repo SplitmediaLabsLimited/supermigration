@@ -14,8 +14,9 @@ module.exports = {
         initial: 'bigquery',
         choices: [
           { message: 'BigQuery', value: 'bigquery' },
-          { message: 'MySQL', value: 'mysql' }
-        ]
+          // TODO: replicate online-schema-change
+          // { message: 'MySQL', value: 'mysql' }
+        ],
       },
       {
         type: 'select',
@@ -27,13 +28,11 @@ module.exports = {
           { message: 'Alter existing table', value: 'alter' },
           { message: 'Copy existing table', value: 'copy' },
           { message: 'Rename existing table', value: 'rename' },
-          { message: 'Drop existing table', value: 'drop' }
-        ]
-      }
+          { message: 'Drop existing table', value: 'drop' },
+        ],
+      },
     ]);
 
     require(`../handlers/${database}/${action}`)(toolbox);
-
-    console.log({ database, action });
-  }
+  },
 };

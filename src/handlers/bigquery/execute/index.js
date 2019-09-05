@@ -23,6 +23,7 @@ async function getMigrationFilename({ parameters }) {
       return {
         name: parsed.name,
         project,
+        file,
       };
     }),
     'project'
@@ -31,7 +32,10 @@ async function getMigrationFilename({ parameters }) {
   const choices = Object.keys(groupedChoices).map(project => {
     const choice = {
       name: project,
-      choices: groupedChoices[project].map(migration => migration.name),
+      choices: groupedChoices[project].map(migration => ({
+        message: migration.name,
+        value: migration.file,
+      })),
     };
 
     return choice;
@@ -47,7 +51,7 @@ async function getMigrationFilename({ parameters }) {
 }
 
 function getMigration(migrationFilename) {
-  return require(path.resolve(process.cwd(), 'migrations', 'bigquery', migrationFilename));
+  return require(path.resolve(process.cwd(), migrationFilename));
 }
 
 module.exports = async function execute(toolbox) {

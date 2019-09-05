@@ -28,10 +28,7 @@ async function getAction(parameters) {
 module.exports = {
   name: 'bigquery',
   run: async toolbox => {
-    const {
-      parameters,
-      print: { info },
-    } = toolbox;
+    const { parameters } = toolbox;
 
     const action = await getAction(parameters);
     require(`../handlers/bigquery/${action}`)(toolbox);

@@ -1,18 +1,10 @@
-const { getBQ } = require('../helpers/getBQ');
-const { print } = require('gluegun');
+const { getBQ, verifyCounts } = require('../helpers/getBQ');
 const {
   createTableFromSchema,
   copyTableFromQuery,
   copyTableFromAnotherTable,
   deleteTable,
 } = require('../helpers/operations');
-
-function printStats(stats) {
-  print.success('Statistics');
-  print.success('==========');
-  print.info(JSON.stringify(stats, null, 2));
-  print.success('==========');
-}
 
 module.exports = async function executeAlter({ migration }) {
   const { destination, source } = migration;
@@ -44,6 +36,8 @@ module.exports = async function executeAlter({ migration }) {
     copyTableFromQuery(temporaryTable, source.query),
     copyTableFromAnotherTable(backupTable, originalTable),
   ]);
+
+  await verifyCounts(originalTable, temporaryTable, backupTable);
 
   // delete the original table
   await deleteTable(originalTable);

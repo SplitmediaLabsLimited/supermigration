@@ -8,16 +8,16 @@ async function run(argv) {
   const cli = build()
     .brand('supermigration')
     .exclude([
-      // 'meta',
+      'meta',
       // 'strings',
       // 'print',
       // 'filesystem',
-      // 'semver',
-      // 'system',
+      'semver',
+      'system',
       'prompt',
       'http',
       'template',
-      // 'patching',
+      'patching',
     ])
     .src(__dirname)
     .plugins('./node_modules', { matching: 'supermigration-*', hidden: true })

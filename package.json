@@ -8,7 +8,7 @@
   },
   "scripts": {
     "format": "prettier --write **/*.{js,json}",
-    "lint": "standard"
+    "lint": "eslint ."
   },
   "files": [
     "src",
