@@ -1,5 +1,7 @@
 # SuperMigration - Easily perform table migrations in BigQuery
 
+[![asciicast](https://asciinema.org/a/IrMHJPlyEIOO99zuQcEa9IUAT.svg)](https://asciinema.org/a/IrMHJPlyEIOO99zuQcEa9IUAT)
+
 ## Requirements
 
 - BigQuery access
@@ -9,7 +11,7 @@
 ## Getting Started
 
 ```js
-yarn add global supermigration
+yarn global add supermigration
 supermigration init
 ```
 

@@ -1,15 +1,12 @@
-const findUp = require('find-up');
+module.exports = async toolbox => {
+  const config = await require('../handlers/init/get-config')();
 
-module.exports = toolbox => {
-  const configPath = findUp.sync('supermigration.config.js');
-
-  if (configPath) {
-    const c = require(configPath);
+  if (config) {
     toolbox.config = {
       ...toolbox.config,
       supermigration: {
         ...toolbox.config.supermigration,
-        ...c,
+        ...config,
       },
     };
   }

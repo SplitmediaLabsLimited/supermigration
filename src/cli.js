@@ -13,7 +13,7 @@ async function run(argv) {
       // 'print',
       // 'filesystem',
       // 'semver',
-      'system',
+      // 'system',
       'prompt',
       'http',
       'template',

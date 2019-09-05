@@ -32,6 +32,7 @@ async function getMigrationFilename({ parameters }) {
   const choices = Object.keys(groupedChoices).map(project => {
     const choice = {
       name: project,
+      role: 'heading',
       choices: groupedChoices[project].map(migration => ({
         message: migration.name,
         value: migration.file,

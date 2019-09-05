@@ -31,6 +31,8 @@ module.exports = {
   run: async toolbox => {
     const { parameters } = toolbox;
 
+    await require('../handlers/init/check')();
+
     const action = await getAction(parameters);
     require(`../handlers/bigquery/${action}`)(toolbox);
   },
