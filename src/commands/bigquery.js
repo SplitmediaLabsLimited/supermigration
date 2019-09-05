@@ -12,12 +12,13 @@ async function getAction(parameters) {
       message: 'Which database are you targeting?',
       initial: 'create',
       choices: [
-        { message: 'Execute a migration', value: 'execute' },
-        // { message: 'Create new table', value: 'create' },
         { message: 'Alter existing table', value: 'alter' },
         { message: 'Copy existing table', value: 'copy' },
-        { message: 'Rename existing table', value: 'rename' },
+        { message: 'Create new table', value: 'create' },
         { message: 'Drop existing table', value: 'drop' },
+        { message: 'Execute a migration', value: 'execute' },
+        { message: 'Rename existing table', value: 'rename' },
+        { message: 'Verify the row counts between multiple tables in the same dataset', value: 'verify' },
       ],
     },
   ]);

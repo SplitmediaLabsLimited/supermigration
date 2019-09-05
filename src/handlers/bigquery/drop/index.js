@@ -12,6 +12,7 @@ module.exports = async function(toolbox) {
   const data = {
     type: 'bigquery',
     action,
+    description: `Drop table ${projectId}:${datasetId}.${tableId}`,
     source: {
       projectId,
       datasetId,

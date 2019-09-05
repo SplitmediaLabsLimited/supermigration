@@ -1,5 +1,5 @@
 const { prompt } = require('enquirer');
-const { filesystem } = require('gluegun');
+const { print, filesystem } = require('gluegun');
 const path = require('path');
 const { groupBy } = require('lodash');
 
@@ -15,17 +15,19 @@ async function getMigrationFilename({ parameters }) {
   });
 
   const groupedChoices = groupBy(
-    migrationFiles.map(file => {
-      const parsed = path.parse(file);
-      const dirs = parsed.dir.split('/');
-      const project = dirs.pop();
+    migrationFiles
+      .map(file => {
+        const parsed = path.parse(file);
+        const dirs = parsed.dir.split('/');
+        const project = dirs.pop();
 
-      return {
-        name: parsed.name,
-        project,
-        file,
-      };
-    }),
+        return {
+          name: parsed.name,
+          project,
+          file,
+        };
+      })
+      .reverse(),
     'project'
   );
 
@@ -46,22 +48,43 @@ async function getMigrationFilename({ parameters }) {
     type: 'multiselect',
     name: 'migrations',
     message: 'Choose a migration to execute',
-    initial: 'default',
+    hint: 'press Spacebar to select',
     choices,
   });
 }
 
 function getMigration(migrationFilename) {
-  return require(path.resolve(process.cwd(), migrationFilename));
+  const output = require(path.resolve(process.cwd(), migrationFilename));
+  output.name = migrationFilename;
+  return output;
 }
 
 module.exports = async function execute(toolbox) {
   const { config, parameters } = toolbox;
 
-  const { migrations } = await getMigrationFilename({ parameters });
+  const { migrations: migrationFilenames } = await getMigrationFilename({ parameters });
 
-  for (const migrationFilename of migrations) {
-    const migration = getMigration(migrationFilename);
+  const migrations = migrationFilenames.map(getMigration);
+
+  print.warning('The following migrations will be ran:');
+  print.info('');
+  migrations.forEach(migration => {
+    print.info(`  - ${migration.name} ${print.colors.muted(`(${migration.description})`)}`);
+  });
+  print.info('');
+
+  const { confirmed } = await prompt({
+    type: 'confirm',
+    name: 'confirmed',
+    message: 'Are you sure you want to run these migrations?',
+  });
+
+  if (!confirmed) {
+    print.info('Canceled!');
+    process.exit(1);
+  }
+
+  for (const migration of migrations) {
     await require(`./${migration.action}`)({ config, migration });
   }
 };

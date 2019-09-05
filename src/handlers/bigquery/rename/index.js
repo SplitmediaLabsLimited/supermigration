@@ -20,6 +20,7 @@ module.exports = async function(toolbox) {
   const data = {
     type: 'bigquery',
     action,
+    description: `Rename table ${projectId}:${datasetId}.${tableId} to ${projectId}:${datasetId}.${destinationTableId}`,
     source: {
       projectId,
       datasetId,

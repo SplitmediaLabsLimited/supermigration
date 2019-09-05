@@ -86,6 +86,13 @@ module.exports = {
 };
 ```
 
+## Disclaimer
+
+- We're not responsible if you nuke your stuff
+- Make a backup of your stuff, especially the first time. Consider using `copy` instead of `alter` the first few times
+- When altering, there's a window of time where you will probably lose some data. Copying tables takes around approx. 2 minutes, so if you're constantly loading data, you might not get the latest ones. The best scenario here would be to **pause loading data** while altering.
+- You might or might not lose data if there's some in the streaming buffer
+
 ## Future Plans
 
 - Make it runnable in CI (`--no-interaction` kind of thing)

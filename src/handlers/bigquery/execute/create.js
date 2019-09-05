@@ -1,10 +1,10 @@
-const { getBQ, verifyCounts } = require('../helpers/getBQ');
+const { getBQ } = require('../helpers/getBQ');
 const { print } = require('gluegun');
 const { prompt } = require('enquirer');
-const { createTableFromSchema, copyTableFromAnotherTable, deleteTable } = require('../helpers/operations');
+const { createTableFromSchema, deleteTable } = require('../helpers/operations');
 
 module.exports = async function executeAlter({ migration }) {
-  const { destination, source } = migration;
+  const { destination } = migration;
   const { table } = getBQ(destination);
 
   const [exists] = await table.exists();
@@ -27,7 +27,4 @@ module.exports = async function executeAlter({ migration }) {
   }
 
   await createTableFromSchema(table, migration.table);
-  const { table: sourceTable } = getBQ(source);
-  await copyTableFromAnotherTable(table, sourceTable);
-  await verifyCounts(table, sourceTable);
 };
