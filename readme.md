@@ -8,8 +8,9 @@
 
 ## Getting Started
 
-```
+```js
 yarn add global supermigration
+supermigration init
 ```
 
 ## Why?
@@ -87,8 +88,9 @@ module.exports = {
 
 - Make it runnable in CI (`--no-interaction` kind of thing)
 - Find a way to test this without testing in production 😂
+- Add a log datasets to keep track of who ran what and when
 - Replicate pt-online-schema-change so we can also perform big alters in MySQL
-- ?? Create an issue and we'll figure it out :)
+- ??
 
 ## Thanks to
 

@@ -1,17 +1,9 @@
-const prettier = require('prettier');
 const { prompt } = require('enquirer');
-const { print, filesystem } = require('gluegun');
+const { print } = require('gluegun');
+const writeExports = require('../../../helpers/write-exports');
 
 module.exports.writeMigration = async function writeMigration(filename, data) {
-  const values = JSON.stringify(data, null, 2);
-
-  const output = prettier.format(`module.exports = ${values};`, {
-    parser: 'babel',
-    singleQuote: true,
-    trailingComma: 'es5',
-  });
-
-  await filesystem.writeAsync(filename, output);
+  await writeExports(filename, data);
 
   print.info(`Migration file generated: ${print.colors.success(filename)}`);
   print.info(`Modify the file, and run ${print.colors.warning('supermigration bigquery execute')}`);
