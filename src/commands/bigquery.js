@@ -16,8 +16,8 @@ async function getAction(parameters) {
         // { message: 'Create new table', value: 'create' },
         { message: 'Alter existing table', value: 'alter' },
         { message: 'Copy existing table', value: 'copy' },
-        // { message: 'Rename existing table', value: 'rename' },
-        // { message: 'Drop existing table', value: 'drop' },
+        { message: 'Rename existing table', value: 'rename' },
+        { message: 'Drop existing table', value: 'drop' },
       ],
     },
   ]);

@@ -1,21 +1,13 @@
-const { prompt } = require('enquirer');
-const { getProjectId, getDatasetId, getTableId, getTable } = require('../helpers/getBQ');
+const { getProjectId, getDatasetId, getTableId } = require('../helpers/getBQ');
 const { writeMigration } = require('../helpers/writeMigration');
 
 module.exports = async function(toolbox) {
-  const action = 'copy';
+  const action = 'drop';
   const { config, parameters } = toolbox;
 
   const { projectId } = await getProjectId({ config, parameters });
   const { datasetId } = await getDatasetId({ projectId, parameters });
   const { tableId } = await getTableId({ projectId, datasetId, parameters });
-  const table = await getTable({ projectId, datasetId, tableId });
-  const { destinationTableId } = await prompt({
-    type: 'input',
-    name: 'destinationTableId',
-    message: 'Input a destination table',
-    initial: tableId + '_Copy',
-  });
 
   const data = {
     type: 'bigquery',
@@ -25,12 +17,7 @@ module.exports = async function(toolbox) {
       datasetId,
       tableId,
     },
-    destination: {
-      projectId,
-      datasetId,
-      tableId: destinationTableId,
-    },
-    table,
+    destination: null,
   };
 
   const filename = `migrations/bigquery/${new Date().getTime()}-${action}-${datasetId}-${tableId}.js`;

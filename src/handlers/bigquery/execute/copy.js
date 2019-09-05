@@ -1,10 +1,7 @@
 const { getBQ } = require('../helpers/getBQ');
 const { print } = require('gluegun');
 const { prompt } = require('enquirer');
-const {
-  createTableFromSchema,
-  copyTableFromAnotherTable,
-} = require('../helpers/operations');
+const { createTableFromSchema, copyTableFromAnotherTable, deleteTable } = require('../helpers/operations');
 
 module.exports = async function executeAlter({ migration }) {
   const { destination, source } = migration;
@@ -18,13 +15,11 @@ module.exports = async function executeAlter({ migration }) {
       name: 'confirm',
       message: `This table already exists ${print.colors.warning(
         `(${destination.projectId}.${destination.datasetId}.${destination.tableId})`
-      )}. Do you want to ${print.colors.error(
-        'delete and recreate'
-      )} this table?`,
+      )}. Do you want to ${print.colors.error('delete and recreate')} this table?`,
     });
 
     if (confirm) {
-      await table.delete();
+      await deleteTable(table);
     } else {
       print.error('Exit!');
       process.exit(1);

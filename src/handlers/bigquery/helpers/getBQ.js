@@ -27,10 +27,7 @@ function getBQ({ projectId, datasetId, tableId }) {
 
 module.exports.getBQ = getBQ;
 
-module.exports.getProjectId = async function getProjectId({
-  config,
-  parameters,
-}) {
+module.exports.getProjectId = async function getProjectId({ config, parameters }) {
   if (parameters.array[1]) {
     return {
       projectId: parameters.array[1],
@@ -47,9 +44,9 @@ module.exports.getProjectId = async function getProjectId({
   } else if (projectsCount === 1) {
     const def = Object.keys(projects)[0];
     print.info(
-      `Automatically choosing environment: ${print.colors.warning(
-        def
-      )} ${print.colors.muted(`(${projects[def].projectId})`)}`
+      `Automatically choosing environment: ${print.colors.warning(def)} ${print.colors.muted(
+        `(${projects[def].projectId})`
+      )}`
     );
 
     return projects[def];
@@ -68,10 +65,7 @@ module.exports.getProjectId = async function getProjectId({
   }
 };
 
-module.exports.getDatasetId = async function getDatasetId({
-  projectId,
-  parameters,
-}) {
+module.exports.getDatasetId = async function getDatasetId({ projectId, parameters }) {
   if (parameters.array[2]) {
     return {
       datasetId: parameters.array[2],
@@ -90,7 +84,7 @@ module.exports.getDatasetId = async function getDatasetId({
   });
 
   return prompt({
-    type: 'select',
+    type: 'autocomplete',
     name: 'datasetId',
     message: 'Choose a dataset',
     initial: 'default',
@@ -98,11 +92,7 @@ module.exports.getDatasetId = async function getDatasetId({
   });
 };
 
-module.exports.getTableId = async function getTableId({
-  projectId,
-  datasetId,
-  parameters,
-}) {
+module.exports.getTableId = async function getTableId({ projectId, datasetId, parameters }) {
   if (parameters.array[3]) {
     return {
       tableId: parameters.array[3],
@@ -121,7 +111,7 @@ module.exports.getTableId = async function getTableId({
   });
 
   return await prompt({
-    type: 'select',
+    type: 'autocomplete',
     name: 'tableId',
     message: 'Choose a table',
     initial: 'default',
@@ -129,11 +119,7 @@ module.exports.getTableId = async function getTableId({
   });
 };
 
-module.exports.getTable = async function getTable({
-  projectId,
-  datasetId,
-  tableId,
-}) {
+module.exports.getTable = async function getTable({ projectId, datasetId, tableId }) {
   const { table } = getBQ({ projectId, datasetId, tableId });
   const spinner = print.spin('Fetching table info...');
   const [{ metadata }] = await table.get();

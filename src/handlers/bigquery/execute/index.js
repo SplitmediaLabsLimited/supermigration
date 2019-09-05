@@ -14,28 +14,25 @@ async function getMigrationFilename({ parameters }) {
   });
 
   return prompt({
-    type: 'select',
-    name: 'migrationFilename',
+    type: 'multiselect',
+    name: 'migrations',
     message: 'Choose a migration to execute',
-    hint: `It won't get executed right away, no worries!`,
     initial: 'default',
-    choices: migrationFiles.map(file => path.parse(file).name),
+    choices: migrationFiles.map(file => path.parse(file).name).reverse(),
   });
 }
 
 function getMigration(migrationFilename) {
-  return require(path.resolve(
-    process.cwd(),
-    'migrations',
-    'bigquery',
-    migrationFilename
-  ));
+  return require(path.resolve(process.cwd(), 'migrations', 'bigquery', migrationFilename));
 }
 
 module.exports = async function execute(toolbox) {
   const { config, parameters } = toolbox;
 
-  const { migrationFilename } = await getMigrationFilename({ parameters });
-  const migration = getMigration(migrationFilename);
-  await require(`./${migration.action}`)({ config, migration });
+  const { migrations } = await getMigrationFilename({ parameters });
+
+  for (const migrationFilename of migrations) {
+    const migration = getMigration(migrationFilename);
+    await require(`./${migration.action}`)({ config, migration });
+  }
 };

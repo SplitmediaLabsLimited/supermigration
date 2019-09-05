@@ -3,7 +3,7 @@ const { getProjectId, getDatasetId, getTableId, getTable } = require('../helpers
 const { writeMigration } = require('../helpers/writeMigration');
 
 module.exports = async function(toolbox) {
-  const action = 'copy';
+  const action = 'rename';
   const { config, parameters } = toolbox;
 
   const { projectId } = await getProjectId({ config, parameters });

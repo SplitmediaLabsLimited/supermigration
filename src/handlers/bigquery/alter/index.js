@@ -1,12 +1,4 @@
-const { prompt } = require('enquirer');
-const { print, filesystem } = require('gluegun');
-const prettier = require('prettier');
-const {
-  getProjectId,
-  getDatasetId,
-  getTableId,
-  getTable,
-} = require('../helpers/getBQ');
+const { getProjectId, getDatasetId, getTableId, getTable } = require('../helpers/getBQ');
 const { writeMigration } = require('../helpers/writeMigration');
 
 module.exports = async function(toolbox) {

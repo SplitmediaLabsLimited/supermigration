@@ -1,6 +1,11 @@
 const { getBQ } = require('../helpers/getBQ');
 const { print } = require('gluegun');
-const { createTableFromSchema, copyTableFromQuery, copyTableFromAnotherTable } = require('../helpers/operations');
+const {
+  createTableFromSchema,
+  copyTableFromQuery,
+  copyTableFromAnotherTable,
+  deleteTable,
+} = require('../helpers/operations');
 
 function printStats(stats) {
   print.success('Statistics');
@@ -41,7 +46,7 @@ module.exports = async function executeAlter({ migration }) {
   printStats(stats);
 
   // delete the original table
-  await originalTable.delete();
+  await deleteTable(originalTable);
 
   // copy the temporary table to the final table
   const finalTable = getBQ({
@@ -52,5 +57,5 @@ module.exports = async function executeAlter({ migration }) {
   printStats(stats);
 
   // delete the temporary table
-  await temporaryTable.delete();
+  await deleteTable(temporaryTable);
 };
