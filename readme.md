@@ -40,10 +40,11 @@ We use to do this manually, but it's so easy to mess up.. so we created SuperMig
 
 It can...
 
-- ✅ Drops a table
-- ✅ Copy a table
-- ✅ Rename a table
 - ✅ Alter a table
+- ✅ Copy a table
+- ✅ Create a table
+- ✅ Drops a table
+- ✅ Rename a table
 
 And keeps everything in neat files so you can add it to git, and make it go through code review.
 
@@ -54,7 +55,7 @@ module.exports = {
   type: 'bigquery',
   action: 'alter',
   source: {
-    // It's a query so that you can modify what you copy over
+    // It's a query so that you can modify what you copy over, like including limit, or just certain partitions
     query: 'SELECT * FROM `sml-bigquery.logs.App_Download`',
   },
   destination: {
@@ -95,6 +96,7 @@ module.exports = {
 
 ## Future Plans
 
+- Moar docs
 - Make it runnable in CI (`--no-interaction` kind of thing)
 - Find a way to test this without testing in production 😂
 - Add a log datasets to keep track of who ran what and when
