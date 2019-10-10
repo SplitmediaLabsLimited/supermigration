@@ -1,6 +1,6 @@
 {
   "name": "supermigration",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "supermigration CLI",
   "bin": {
     "supermigration": "bin/supermigration"

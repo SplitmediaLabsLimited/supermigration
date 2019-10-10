@@ -27,19 +27,23 @@ module.exports = async function(toolbox) {
     },
     table: {
       description,
+      timePartitioning: {
+        type: 'DAY',
+        field: 'CreatedAt',
+      },
+      requirePartitionFilter: true,
+      clustering: {
+        fields: ['Id'],
+      },
       schema: {
-        timePartitioning: {
-          type: 'DAY',
-          field: 'created_at',
-        },
         fields: [
           {
-            name: 'id',
-            type: 'STRING',
+            name: 'Id',
+            type: 'INTEGER',
             mode: 'REQUIRED',
           },
           {
-            name: 'created_at',
+            name: 'CreatedAt',
             type: 'TIMESTAMP',
             mode: 'REQUIRED',
           },
